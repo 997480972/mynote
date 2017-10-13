@@ -1,0 +1,6 @@
+server.port: 8080
+eureka.client:
+ #通过eureka.client.registerWithEureka：false和fetchRegistry：false来表明自己是一个eureka server.
+ register-with-eureka: false
+ fetch-registry: false
+ serviceUrl.defaultZone: http://localhost:${server.port}/eureka/

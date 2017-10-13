@@ -1,10 +1,12 @@
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/GzipUtils.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/entity/Note.java
+/home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/PageResult.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/entity/SysMenu.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/HexString.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/MD5.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/CaptchaUtil.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/ImageUploadUtil.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/JsonUtils.java
+/home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/PageParam.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/util/DateUtil.java
 /home/tomtop2149/liu/mynote/mynote-common/src/main/java/com/entity/User.java

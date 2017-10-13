@@ -1,29 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com</groupId>
-  <artifactId>mynote</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>mynote-common</module>
-  	<module>mynote-dao</module>
-  	<module>mynote-web</module>
-  </modules>
-  <!-- 2. 全局的属性配置 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com</groupId>
+	<artifactId>mynote</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>mynote-common</module>
+		<module>mynote-dao</module>
+		<module>mynote-web</module>
+		<module>mynote-eureka</module>
+		<module>mynote-service</module>
+	</modules>
+	<!-- 2. 全局的属性配置 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>  
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	 <!-- 继承父包 -->  
-	<!-- <parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
-	</parent> -->
-	
+	<!-- 继承父包 -->
+	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
+		<version>1.5.2.RELEASE</version> </parent> -->
+	<dependencies>
+		<!-- devtools实现热部署 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>1.5.6.RELEASE</version>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
 	<!-- 4. 项目构建配置 -->
 	<build>
 		<plugins>
@@ -31,36 +39,26 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<!-- <version>1.5.6.RELEASE</version> -->
-				<!-- 1.4.x打包运行均正常，高版本SpringBoot打包运行找不到jsp可设置spring-boot-maven-plugin版本为1.4.2打包 --> 
+				<!-- 1.4.x打包运行均正常，高版本SpringBoot打包运行找不到jsp可设置spring-boot-maven-plugin版本为1.4.2打包 -->
 				<version>1.5.6.RELEASE</version>
 				<configuration>
-					<mainClass>com.Application</mainClass>
 					<executable>true</executable>
 					<classifier>exec</classifier> <!-- 可执行jar包的名字后缀 -->
-					<fork>true</fork>  
+					<fork>true</fork>
 				</configuration>
 				<executions>
-	                <execution>
-	                    <goals>
-	                        <goal>repackage</goal>
-	                    </goals>
-	                </execution>
-	            </executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- 编译插件 (更改编译级别) 添加编译器插件来告诉 Maven 使用哪个 JDK 版本是用来编译项目 -->
-			<!--  <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					源代码用1.8编译
-					<source>1.8</source>
-					生成jar时用1.8编译
-					<target>1.8</target>
-					源代码用utf-8
-					<encoding>utf-8</encoding>
-				</configuration>
-			</plugin>  -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				<version>3.1</version> <configuration> 源代码用1.8编译 <source>1.8</source> 生成jar时用1.8编译 
+				<target>1.8</target> 源代码用utf-8 <encoding>utf-8</encoding> </configuration> 
+				</plugin> -->
 			<!-- 配置tomcat7容器插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -74,23 +72,10 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<!-- <resources>  
-            <resource>  
-                指定resources插件处理哪个目录下的资源文件  
-                <directory>src/main/webapp</directory>  
-                注意此次必须要放在此目录下才能被访问到  
-                <targetPath>META-INF/resources</targetPath>  
-                <includes>  
-                    <include>**/**</include>  
-                </includes>  
-            </resource>  
-            <resource>  
-                <directory>src/main/resources</directory>  
-                <includes>  
-                    <include>**/**</include>  
-                </includes>  
-                <filtering>false</filtering>  
-            </resource>  
-        </resources>   -->
+		<!-- <resources> <resource> 指定resources插件处理哪个目录下的资源文件 <directory>src/main/webapp</directory> 
+			注意此次必须要放在此目录下才能被访问到 <targetPath>META-INF/resources</targetPath> <includes> 
+			<include>**/**</include> </includes> </resource> <resource> <directory>src/main/resources</directory> 
+			<includes> <include>**/**</include> </includes> <filtering>false</filtering> 
+			</resource> </resources> -->
 	</build>
 </project>

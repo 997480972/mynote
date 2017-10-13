@@ -13,24 +13,20 @@
 	            Add Note
 	        </a>
 		</div>
-		<div>
+		<div id="menu">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/">Home</a></li>
-				<li><a href="#">SVN</a></li>
-				<li><a href="#">iOS</a></li>
-				<li><a href="#">VB.Net</a></li>
+				<ul class="nav navbar-nav" v-for="category in menus">
+					<li><a href="javascript:void(0);">{{category.name}}</a></li>
+				</ul>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						Java <span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Swing</a></li>
-						<li><a href="#">jMeter</a></li>
-						<li><a href="#">EJB</a></li>
 						<li class="divider"></li>
 						<li><a href="#">分离的链接</a></li>
 					</ul>
-				<li><a href="#">PHP</a></li>
 				<li><div class="btn-group">
 						<button type="button" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown">默认
 					        <span class="caret"></span>
@@ -56,18 +52,17 @@
 		</div>
 	</div>
 </nav>
-<div id="messageDiv" class="alert alert-success alert-dismissable" style="margin-top:50px;display:none;" >
-    <button type="button" class="close" data-dismiss="alert"
-            aria-hidden="true">
-        &times;
-    </button>
-    {{message}}
-</div>
 <script>
 	var vu = new Vue({
-				  el: '#messageDiv',
+				  el: '#menu',
 				  data: {
-				    message: ''
+				    menus: ''
+				  },
+				  create:function(){
+				  	$.get('/menus',function(data){
+				  		alert(data);
+				  		vu.menus = data;
+				  	});
 				  }
 			});
 </script>

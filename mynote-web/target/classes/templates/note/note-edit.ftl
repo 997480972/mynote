@@ -1,10 +1,4 @@
 <#include "/layout/head.ftl">
-<!--
-<script type="text/javascript" src="/plugins/ueditor/ueditor.config.js"></script>  
-<script type="text/javascript" src="/plugins/ueditor/ueditor.all.min.js"></script>  -->
-<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-<!--<script type="text/javascript" charset="utf-8" src="/plugins/ueditor/lang/zh-cn/zh-cn.js"></script> -->
 <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script> 
 <script charset="utf-8" src="/plugins/kindeditor/kindeditor-all.js"></script>
 <script charset="utf-8" src="/plugins/kindeditor/lang/zh-CN.js"></script>
@@ -76,6 +70,7 @@
 	    }
 	}
 	*/
+	//保存
     $('button#saveNote').click(function() {  
     	//同步数据后可以直接取得textarea的value
 		window.editor.sync();
