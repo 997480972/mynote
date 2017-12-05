@@ -9,7 +9,6 @@ public class PageResult<T> implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public final static int DEFAULT_PAGE_NO = 1;
     public final static int DEFAULT_PAGE_SIZE = 20;
-	
 	private List<T> pageData;
 	private int pageSize=DEFAULT_PAGE_SIZE; //每页多少条
 	private int pageNumber=DEFAULT_PAGE_NO;//第几页

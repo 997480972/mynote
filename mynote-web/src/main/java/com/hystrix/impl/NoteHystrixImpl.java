@@ -1,8 +1,5 @@
 package com.hystrix.impl;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.entity.Note;

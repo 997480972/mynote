@@ -46,16 +46,17 @@ public class NoteController {
 	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView main(){
-		PageParam<Note> pageParam = new PageParam<Note>();
-		System.out.println(pageParam);
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			PageResult<Note> pageResult = noteHystrix.findAll(pageParam);
-			map.put("pageResult", JsonUtils.object2Json(pageResult)); 
-		} catch (Exception e) {
-			e.printStackTrace();// TODO: handle exception
-		}
-		return new ModelAndView("layout/main",map);
+//		PageParam<Note> pageParam = new PageParam<Note>();
+//		System.out.println(pageParam);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		try {
+//			PageResult<Note> pageResult = noteHystrix.findAll(pageParam);
+//			map.put("pageResult", JsonUtils.object2Json(pageResult)); 
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new ModelAndView("layout/main",map);
+		return new ModelAndView("layout/main");
 	}
 	@ResponseBody
 	@RequestMapping(value="/", method = RequestMethod.POST)
@@ -63,7 +64,6 @@ public class NoteController {
 		System.out.println("post:" + pageParam);
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageResult<Note> pageResult = noteHystrix.findAll(pageParam);
-		System.out.println(pageResult);
 		map.put("pageResult", JsonUtils.object2Json(pageResult)); 
 		return pageResult;//new ModelAndView("layout/main",map);
 	}

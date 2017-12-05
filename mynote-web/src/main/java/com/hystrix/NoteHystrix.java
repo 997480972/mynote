@@ -15,8 +15,9 @@ import com.util.PageResult;
 @FeignClient(value = "mynote-service", fallback = NoteHystrixImpl.class)
 public interface NoteHystrix {
     
-    @RequestMapping(value = "/")
-    PageResult<Note> findAll(PageParam<Note> pageParam);
+	@RequestMapping(value = "/")
+	PageResult<Note> findAll(PageParam<Note> pageParam);
+	
     
     @RequestMapping(value = "/note/{id}", method = RequestMethod.GET)
     Note findOne(@RequestParam(value = "id") Integer id);

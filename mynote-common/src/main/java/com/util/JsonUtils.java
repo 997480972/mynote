@@ -43,7 +43,7 @@ public class JsonUtils {
 		return object;
 	}
 	
-	 public static Object fromJson(String requestStr, Class collectionClazz, Class<?>... elementClazzes) {
+	 public static Object fromJson(String requestStr, Class<?> collectionClazz, Class<?>... elementClazzes) {
 	        if (StringUtils.isEmpty(requestStr)) {
 	            return null;
 	        }

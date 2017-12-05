@@ -2,8 +2,9 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/vue.min.js"></script>
+<script src="/plugins/tips/layer.js"></script>
 <title>Note</title>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">Note</a>
@@ -27,13 +28,15 @@
 						<li class="divider"></li>
 						<li><a href="#">分离的链接</a></li>
 					</ul>
+				</li>
 				<li><div class="btn-group">
-						<button type="button" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown">默认
+						<button type="button" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown">分类操作
 					        <span class="caret"></span>
 					    </button>
 					    <ul class="dropdown-menu" role="menu">
 					        <li>
-					            <a href="#">功能</a>
+					        	<input type="text"  class="form-control" style="text-align:center;" name="categoryName" placeholder="请输入分类">
+					            <a href="#">新增分类</a>
 					        </li>
 					        <li>
 					            <a href="#">另一个功能</a>
@@ -53,16 +56,22 @@
 	</div>
 </nav>
 <script>
-	var vu = new Vue({
-				  el: '#menu',
-				  data: {
-				    menus: ''
-				  },
-				  create:function(){
-				  	$.get('/menus',function(data){
-				  		alert(data);
-				  		vu.menus = data;
-				  	});
-				  }
-			});
+	vue = new Vue({
+		  el: '#menu',
+		  data: {
+		    menus: ''
+		  },
+		  created:function(){
+		  	$.ajax({
+	  			type: "GET",  
+	            url:"/categorys",  
+	            error: function(request) {  
+	                alert("Connection error");  
+	            },  
+	            success: function(data) {  
+	            	vue.menus = data;
+	            }  
+	  		});
+		  }
+	});
 </script>

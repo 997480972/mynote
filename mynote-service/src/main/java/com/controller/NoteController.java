@@ -2,11 +2,23 @@ package com.controller;
 
 
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +26,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dao.NoteDao;
+import com.dto.BaseResponse;
+import com.dto.NoteRq;
+import com.dto.PageRq;
+import com.dto.PageRs;
+import com.dto.NoteRsData;
 import com.entity.Note;
+import com.util.JsonUtils;
 import com.util.PageParam;
 import com.util.PageResult;
 
 @RestController
+@Api(tags={"笔记接口：NoteController"})
 public class NoteController {
 	@Value("${server.port}")
 	String port;
@@ -26,7 +45,8 @@ public class NoteController {
 	@Autowired
 	private NoteDao noteDao;
 
-	@RequestMapping("/info")
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	@ApiOperation("info信息")
 	public String home() {
 		return "i am from port:" + port;
 	}
@@ -35,63 +55,66 @@ public class NoteController {
 	 * 系统首页
 	 * @return
 	 */
-	@RequestMapping(value = "/", method =  RequestMethod.GET)
-	public PageResult<Note> findPage() {
-		PageParam<Note> pageParam = new PageParam<Note>();
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@ApiOperation(value = "获取第一页Note信息", notes = "获取note第一页的数据")
+	public PageRs<NoteRsData> findPage() {
+		System.out.println("获取第一页Note信息");
+		PageRq<Note> pageRq = new PageRq<Note>();
 		Direction d = Direction.DESC;
-		if(pageParam.getDirection() == 1) {
+		if(pageRq.getDirection() == 1) {
 			d = Direction.ASC;
 		}
-		System.out.println(pageParam);
-		Page<Note> page = noteDao.findAll(new PageRequest(pageParam.getPageNo()-1, pageParam.getPageSize(), d, pageParam.getSort()));
+		System.out.println(pageRq);
+		//分页查询数据
+		Page<Note> page = noteDao.findAll(new PageRequest(pageRq.getPageNo()-1, pageRq.getPageSize(), d, pageRq.getSort()));
 		System.out.println(page);
-		PageResult<Note> pageResult = new PageResult<Note>();
-		pageResult.setDataTotal((int)page.getTotalElements());
-		pageResult.setPageData(page.getContent());
-		pageResult.setPageNumber(page.getNumber() + 1);
-		pageResult.setPageSize(page.getSize());
-		pageResult.setPageTotal(page.getTotalPages());
-		return pageResult;
+		return new PageRs<NoteRsData>(page, Note.class, NoteRsData.class);
 	}
 	/**
 	 * 分页查询
 	 * @param pageParam
 	 * @return
 	 */
+	@ApiOperation(value = "获取Note信息", notes = "获取note数据，分页查询")
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public PageResult<Note> findPage(@RequestBody PageParam<Note> pageParam) {
-		Direction d = Direction.DESC;
-		if(pageParam.getDirection() == 1) {
-			d = Direction.ASC;
-		}
-		System.out.println(pageParam);
-		Note note = pageParam.getP();
+	public PageRs<NoteRsData> findPage(@RequestBody PageRq<Note> pageRq) {
+		System.out.println("获取note数据，分页查询");
+		
+		System.out.println(pageRq);
+		Map<String, Object> map = pageRq.getMap();
 		Page<Note> page = null;
-		if(null == note){
-			page = noteDao.findAll(new PageRequest(pageParam.getPageNo()-1, pageParam.getPageSize(), d, pageParam.getSort()));
+		if(null == map){
+			page = noteDao.findAll(new PageRequest(pageRq.getPageNo()-1, pageRq.getPageSize(), pageRq.getDescOrAsc(), pageRq.getSort()));
 		} else { //分页查询分类
-			page = noteDao.findAllByCategoryName(note.getCategoryName(),new PageRequest(pageParam.getPageNo()-1, pageParam.getPageSize(), d, pageParam.getSort()));
+			page = noteDao.findAllByCategoryName(map.get("categoryName").toString(),new PageRequest(pageRq.getPageNo()-1, pageRq.getPageSize(), pageRq.getDescOrAsc(), pageRq.getSort()));
 		}
-		PageResult<Note> pageResult = new PageResult<Note>();
-		pageResult.setDataTotal((int)page.getTotalElements());
-		pageResult.setPageData(page.getContent());
-		pageResult.setPageNumber(page.getNumber() + 1);
-		pageResult.setPageSize(page.getSize());
-		pageResult.setPageTotal(page.getTotalPages());
-		return pageResult;
+		return new PageRs<NoteRsData>(page, Note.class, NoteRsData.class);
 	}
-
+	
 	// 查看Note
+	@ApiOperation(value = "根据id获取note", notes = "获取单个Note")
 	@RequestMapping(value = "/note/{id}", method = RequestMethod.GET)
-	public Note fetchNote(@PathVariable("id") Integer id) {
+	public NoteRsData fetchNote(@PathVariable("id") Integer id) {
 		Note note = noteDao.findById(id);
 		System.out.println(note);
-		return note;
+		return new NoteRsData(note);
 	}
 
 	// save Note
+	@ApiOperation(value = "保存单个note", notes = "保存或更新，有id则更新，无id则新增")
 	@RequestMapping(value = "/note", method = RequestMethod.POST)
-	public Note saveNote(@RequestBody Note note) {
-		return noteDao.save(note);
+	public PageRs<NoteRsData> saveNote(@Valid @RequestBody NoteRq noteRq, BindingResult bindingResult) {
+		noteRq.setBindingResult(bindingResult);
+		String msg = noteRq.validate();
+		PageRs<NoteRsData> pageRs = new PageRs<NoteRsData>(msg);
+		if(StringUtils.isNotBlank(msg)){ //校验不通过
+			pageRs.setCode(403);
+			return pageRs;
+		}
+		Note note = new Note();
+		noteRq.copyProperties(note); //封装实体
+		pageRs.getPageData().add(new NoteRsData(noteDao.save(note))); //封装页面响应对象
+		pageRs.setMessage("save succcess!");
+		return pageRs;
 	}
 }

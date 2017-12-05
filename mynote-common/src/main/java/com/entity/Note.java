@@ -9,9 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -53,8 +54,10 @@ public class Note implements Serializable {
 	private String author; //作者
 	
     @Column(name="create_time", columnDefinition="timestamp")
+    @CreatedDate
     private String createTime;    //创建时间
 
+    @LastModifiedDate
     @Column(name="update_time", length=64)
     private String updateTime;    //更新时间
 

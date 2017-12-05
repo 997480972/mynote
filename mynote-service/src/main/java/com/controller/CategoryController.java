@@ -2,6 +2,9 @@ package com.controller;
 
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import com.dao.CategoryDao;
 import com.entity.Category;
 
 @RestController
+@Api("分类")
 public class CategoryController {
 
 	@Autowired
@@ -24,7 +28,8 @@ public class CategoryController {
 	 * 查询所有分类
 	 * @return
 	 */
-	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	@ApiOperation("查询所有分类")
+	@RequestMapping(value = "/categorys", method = RequestMethod.GET)
 	public List<Category> findAll() {
 		List<Category> categories = categoryDao.findAll();
 		System.out.println(categories.size());

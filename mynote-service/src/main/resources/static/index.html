@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Swagger-Bootstrap-UI-前后端api接口文档</title>
+    <link rel="shortcut icon" href="webjars/bycdao-ui/images/api.ico"/>
+    <link rel="stylesheet" type="text/css" href="webjars/bycdao-ui/cdao/DUI.css" />
+    <script type="text/javascript" src="webjars/bycdao-ui/jquery/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="webjars/bycdao-ui/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="webjars/bycdao-ui/ace/ace.min.css" />
+    <link rel="stylesheet" href="webjars/bycdao-ui/jsonview/jquery.jsonview.min.css" />
+    <script type="text/javascript" src="webjars/bycdao-ui/jsonview/jquery.jsonview.min.js"></script>
+
+    <script type="text/javascript" src="webjars/bycdao-ui/layer3.0.3/layer.js"></script>
+    <link rel="stylesheet" href="webjars/bycdao-ui/layer3.0.3/skin/default/layer.css" />
+
+    <style type="text/css">
+        .bycdao-left {
+            width: 20%;
+            margin-top: 0px;
+            position: fixed;
+            background: #ccc;
+            height: 100%;
+            transition: all 0.2s;
+        }
+        .bycdao-dragging{
+            position: fixed;
+            height: 100%;
+            left: 20%;
+            width: 1rem;
+            /*background: #1d2024;*/
+            z-index: 3;
+            cursor: col-resize;
+        }
+        .bycdao-main {
+            margin-left: 20%;
+            padding-top: 5px;
+           /* padding-left: 15px;*/
+            padding-right: 15px;
+            background: #f3f3f4;
+            /*transition: all 0.2s;*/
+        }
+        .search-div{
+            display: flex;
+            width: 100%;
+            height: 3rem;
+        }
+        .search-input{
+            flex: 0 0 80%;
+        }
+        .search-btn{
+            flex: 0 0 20%;
+        }
+        .search-input input{
+            font-size: 1rem;
+            line-height: 100%;
+            width: 100%;
+            height:3rem;
+        }
+        .search-btn button{
+            width: 100%;
+            height: 3rem;
+        }
+
+        .tab-content {
+            /* border: 1px solid #c5d0dc; */
+            /* padding: 16px 12px; */
+            position: relative;
+            z-index: 11;
+        }
+
+        .nav-tabs>li>a:hover {
+            /* background-color: #FFF; */
+            /* color: #4c8fbd; */
+            /* border-color: #c5d0dc; */
+        }
+        .menuLi{
+            border: 1px solid #f3f3f4;
+            /* padding: 1px 2px; */
+            margin-bottom: 2px;
+            margin-top: 2px;
+        }
+        .menuLi .mhed{
+            cursor: pointer;
+            padding-left: 30px;
+        }
+        li.active>.mhed:after{
+            display: block;
+            content: "";
+            position: absolute !important;
+            right: 0;
+            top: 4px;
+            border: 8px solid transparent;
+            border-width: 14px 10px;
+            border-right-color: #2b7dbc
+        }
+        .row{
+            display: flex;
+            height: 30px;
+        }
+        .a-block{
+            flex: 0 0 4%;
+            height: 30px;
+            border-left: solid #cccccc 1px;
+            border-right: solid #cccccc 1px;
+            margin-right:-1px;  /*消除边框重合变粗*/
+        }
+        .row-full{
+            display: flex;
+            flex:1;
+            line-height: 30px;
+            border: solid #cccccc 1px;
+            margin-right:-1px;  /*消除边框重合变粗*/
+            margin-bottom:-1px;  /*消除边框重合变粗*/
+        }
+        .param-cell{
+            flex: 0 0 15%;
+            padding-left: 1rem;
+        }
+        .non-margin-left{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .resp-param-annotation{
+            font-size: small;
+            font-style:italic;
+        }
+        .resp-param-annotation i{
+            color: #2b7dbc;
+            background-color: #f9f2f4;
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body style="overflow: hidden;">
+<div class="bycdao-left js-bycdao-left" style="height: 100%;overflow-y: auto;">
+    <div class="ul-wrapper">
+        <div class="search-div">
+            <div class="search-input">
+                <input type="text" id="inputSearch" size="30" placeholder="输入搜索">
+            </div>
+            <div class="search-btn">
+                <button class="btn btn-default btn-info" id="btnSearch" type="button">搜索</button>
+            </div>
+        </div>
+        <ul class="nav nav-list" id="menu">
+            <li >
+                <a href="javascript:void(0)">
+                    <i class="icon-text-width"></i>
+                    <span class="menu-text"> 简介 </span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-file-alt"></i>
+                    <span class="menu-text">
+									其他页面
+									<span class="badge badge-primary ">3</span>
+								</span>
+                    <b class="arrow icon-angle-down"></b>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="icon-double-angle-right"></i>
+                            帮助
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="icon-double-angle-right"></i>
+                            404错误页面
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="icon-double-angle-right"></i>
+                            500错误页面
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="bycdao-dragging js-bycdao-dragging"></div>
+
+<div class="bycdao-main js-bycdao-main" id="content"  style="height: 100%;overflow-y: auto;">
+    <table class="table table-hover table-bordered table-text-center">
+        <thead>
+        <tr>
+            <th colspan="2" style="text-align:center">前后端接口文档</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="active">项目名称</th>
+            <td style="text-align: left">Swagger-Bootstrap-UI RESTful APIs</td>
+        </tr>
+        <tr>
+            <th class="active">简介</th>
+            <td style="text-align: left">Swagger-Bootstrap-UI RESTful APIs</td>
+        </tr>
+        <tr>
+            <th class="active">作者</th>
+            <td style="text-align: left">developer@gmail.com</td>
+        </tr>
+        <tr>
+            <th class="active">版本</th>
+            <td style="text-align: left">1.0</td>
+        </tr>
+        <tr>
+            <th class="active">host</th>
+            <td style="text-align: left">127.0.0.1</td>
+        </tr>
+        <tr>
+            <th class="active">服务url</th>
+            <td style="text-align: left">http://localhost:8800/</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="webjars/bycdao-ui/cdao/DApiUI.js"></script>
+<script type="text/javascript" src="webjars/bycdao-ui/ace/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/bycdao-ui/ace/ace.min.js"></script>
+
+<!----jsonhandle-->
+</body>
+</html>

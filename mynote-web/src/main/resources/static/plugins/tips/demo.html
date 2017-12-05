@@ -1,0 +1,60 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>jeDate日期控件</title>
+<script type="text/javascript" src="../jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="layer.js"></script>
+
+<style>
+.test{
+	margin: 20px 350px;
+}
+</style>
+</head>
+
+<body>
+
+<input type="button" value="tips-left" class="test" onclick="test()"/>
+<input type="button" value="tips-left" class="test" id="112" onclick="test1()"/>
+<span id="order_c">tips_left</span>
+
+<script type="text/javascript">
+function test1(){
+	
+	layer.tips('我就是想看下，是什么样子，很屌么ooooooo', '#112', {
+	  tips: [4, '#78BA32'],
+	  time:15555000,
+	  zIndex:98
+	});
+	
+	
+	
+	
+}
+function test(){
+	layer.tips('我就<br>是想看下，是什么样子，很屌么', '.test', {
+	  tips: [4, '#343232'],
+	  time:225000,
+	  zIndex:99
+	});
+	
+	
+	//tips层-下
+	//layer.tips('我就是想看下，是什么样子，很屌么', '.test', {
+	//  tips: [3, '#78BA32']
+	//});
+	
+	
+}
+
+	//tips层-左
+layer.tips('左边么么哒', '#order_c', {
+  tips: [4, '#78BA32']
+});
+
+</script>
+
+</body>
+</html>
