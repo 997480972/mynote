@@ -19,7 +19,7 @@ public abstract class BaseResponse implements Serializable{
 	@ApiModelProperty(value = "错误代码(成功则返回200)", dataType = "int")
 	protected int code = 200; 
 	@ApiModelProperty(value = "详细信息（可能是错误信息、提示信息）", dataType = "String")
-	protected String message; 
+	protected String message = "ok"; 
 	@ApiModelProperty(value = "版本号", dataType = "String")
 	private String version="1.0";
 	

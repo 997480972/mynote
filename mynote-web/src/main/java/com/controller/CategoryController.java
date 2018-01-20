@@ -9,15 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.dto.PageRs;
 import com.entity.Category;
 import com.hystrix.CategoryHystrix;
-import com.util.JsonUtils;
 
 
 @Controller
@@ -30,15 +28,30 @@ public class CategoryController {
 	@Autowired
 	private CategoryHystrix categoryHystrix;
 	
+	
+	//查询所有分类
 	@ResponseBody
 	@RequestMapping("/categorys")
 	public List<Category> getAllCategorys(){
-		return categoryHystrix.findAll();
+		System.out.println("查询所有分类");
+		PageRs<Category> pageRs = categoryHystrix.findAll();
+		System.out.println(pageRs);
+		return pageRs.getPageData();
 	}
 	//保存
 	@ResponseBody
 	@RequestMapping(value="/category", method=RequestMethod.POST)
-	public Category saveCategory(Category category){
-		return categoryHystrix.save(category);
+	public String saveCategory(Category category){
+		String msg = "save success!";
+		if(null == category){
+			return null;
+		}
+		if(null == category.getId()){ //add
+			if(null != categoryHystrix.findOne(category.getName())){
+				return category.getName() + "exist";
+			}
+		}
+		categoryHystrix.save(category);
+		return msg;
 	}
 }

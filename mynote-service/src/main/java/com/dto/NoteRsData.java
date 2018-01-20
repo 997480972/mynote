@@ -2,15 +2,7 @@ package com.dto;
 
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-
 import io.swagger.annotations.ApiModelProperty;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.springframework.validation.BindingResult;
-
-import com.entity.Note;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,21 +50,4 @@ public class NoteRsData implements Serializable{
 	@ApiModelProperty("浏览数")
     private Integer showCount;  //浏览数
 	
-	@ApiModelProperty(hidden=true)
-	BindingResult bindingResult; //验证结果
-	
-	/**
-	 * 复制实体属性构造器
-	 * @param note
-	 */
-	public NoteRsData(Note note) {
-		try {
-			BeanUtils.copyProperties(this,note);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

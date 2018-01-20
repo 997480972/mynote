@@ -7,7 +7,7 @@
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Note</a>
+			<a class="navbar-brand" href="/">myNote</a>
 		</div class="navbar-header">
 		<div  class="navbar-right" >
 			<a id="addNote" class="btn btn-info navbar-btn" href="/noteEdit">
@@ -16,10 +16,10 @@
 		</div>
 		<div id="menu">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">Home</a></li>
 				<ul class="nav navbar-nav" v-for="category in menus">
-					<li><a href="javascript:void(0);">{{category.name}}</a></li>
+					<li v-bind:class="{active: category.name==activeName }"><a href="javascript:void(0);" @click="findNotesByCategory(category)">{{category.name}}</a></li>
 				</ul>
+				<!--
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						Java <span class="caret"></span>
@@ -51,15 +51,17 @@
 					    </ul>
 					</div>
 				</li>
+				-->
 			</ul>
 		</div>
 	</div>
 </nav>
 <script>
-	vue = new Vue({
+	headVue = new Vue({
 		  el: '#menu',
 		  data: {
-		    menus: ''
+		    menus: '',
+		    activeName:"${categoryName!''}"
 		  },
 		  created:function(){
 		  	$.ajax({
@@ -69,9 +71,25 @@
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
-	            	vue.menus = data;
+	            	headVue.menus = data;
 	            }  
 	  		});
+		  },
+		  methods:{
+			  	findNotesByCategory:function(category){
+			  		activeName = category.name;
+			  		$.ajax({
+			  			type:"post",
+			  			url:"/notes",
+			  			data: {"pageNo":1, "pageSize":mainVue.pageResult.pageSize,"queryMap":{"categoryName":activeName}},
+			  			error: function(request) {  
+			                alert("Connection error");  
+			            },  
+			            success: function(data) {  
+			                mainVue.pageResult = data;
+			            }  
+			  		});
+			  	}
 		  }
 	});
 </script>

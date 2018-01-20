@@ -35,21 +35,25 @@
 </div>
 <#include "foot.ftl">
 <script >
-	var vu = new Vue({
+	var mainVue = new Vue({
 	  el: '#content',
 	  data: {
 	  	pageResult: ''
 	  },
 	  created: function(){
+	  		var queryMap = {};
+	  		if(headVue.activeName){
+	  			queryMap.categoryName = headVue.activeName;
+	  		}
 	  		$.ajax({
 	  			type: "POST",  
-	            url:"/",  
-	            data: {"pageNo": 1,"pageSize": 9}, 
+	            url:"/notes",  
+	            data: {"pageNo": 1,"pageSize": 9,"queryMap":queryMap}, 
 	            error: function(request) {  
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
-	                vu.pageResult = data;
+	                mainVue.pageResult = data;
 	            }  
 	  		});
 	  		
@@ -74,66 +78,66 @@
 	  	changePageSize:function(event){  //选择每页条数
 	  		$.ajax({
 	  			type: "POST",  
-	            url:"/",  
+	            url:"/notes",  
 	            data: {"pageNo": this.pageResult.pageNumber,"pageSize": this.pageResult.pageSize}, 
 	            error: function(request) {  
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
-	                vu.pageResult = data;
+	                mainVue.pageResult = data;
 	            }  
 	  		});
 	  	},
 	  	setPageNumber:function(page){ //选择当前页
 	  		$.ajax({
 	  			type: "POST",  
-	            url:"/",  
-	            data: {"pageNo": page,"pageSize":vu.pageResult.pageSize}, 
+	            url:"/notes",  
+	            data: {"pageNo": page,"pageSize":mainVue.pageResult.pageSize}, 
 	            error: function(request) {  
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
 	                console.log(data);
-	                vu.pageResult = data;
+	                mainVue.pageResult = data;
 	            }  
 	  		});
 	  	},
 	  	prePage:function(){ //上一页
-	  		if(vu.pageResult.pageNumber == 1){
+	  		if(mainVue.pageResult.pageNumber == 1){
 	  			alert("没有上一页了！");
 	  			return false;
 	  		}
 	  		$.ajax({
 	  			type:"post",
-	  			url:"/",
-	  			data: {"pageNo":vu.pageResult.pageNumber - 1, "pageSize":vu.pageResult.pageSize},
+	  			url:"/notes",
+	  			data: {"pageNo":mainVue.pageResult.pageNumber - 1, "pageSize":mainVue.pageResult.pageSize},
 	  			error: function(request) {  
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
 	                console.log(data);
-	                vu.pageResult = data;
+	                mainVue.pageResult = data;
 	            }  
 	  		});
 	  	},
 	  	nextPage:function(){ //下一页
-	  		if(vu.pageResult.pageNumber == vu.pageResult.pageTotal){
+	  		if(mainVue.pageResult.pageNumber == mainVue.pageResult.pageTotal){
 	  			alert("没有下一页了！");
 	  			return false;
 	  		}
 	  		$.ajax({
 	  			type:"post",
-	  			url:"/",
-	  			data: {"pageNo":vu.pageResult.pageNumber + 1, "pageSize":vu.pageResult.pageSize},
+	  			url:"/notes",
+	  			data: {"pageNo":mainVue.pageResult.pageNumber + 1, "pageSize":mainVue.pageResult.pageSize},
 	  			error: function(request) {  
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
-	                vu.pageResult = data;
+	                mainVue.pageResult = data;
 	            }  
 	  		});
 	  	},
-	  	addCategory:function(){
+	  	addCategory:function(){ //新增分类
 	  		$.ajax({
 	  			type:"post",
 	  			url:"/category",
@@ -146,7 +150,7 @@
 	                layer.alert(data.name + ' add success!',{offset: '50px'}, function(){location.reload();});
 	            }  
 	  		});
-	  	}
+	  	},
 	  	
 	  }
 	});

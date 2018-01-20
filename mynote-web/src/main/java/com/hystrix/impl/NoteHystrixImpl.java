@@ -2,10 +2,10 @@ package com.hystrix.impl;
 
 import org.springframework.stereotype.Component;
 
+import com.dto.PageRq;
+import com.dto.PageRs;
 import com.entity.Note;
 import com.hystrix.NoteHystrix;
-import com.util.PageParam;
-import com.util.PageResult;
 
 /**
  *熔断器
@@ -14,7 +14,7 @@ import com.util.PageResult;
 public class NoteHystrixImpl implements NoteHystrix {
 
 	@Override
-	public PageResult<Note> findAll(PageParam<Note> pageParam) {
+	public PageRs<Note> findAll(PageRq pageRq) {
 		System.out.println("hystrix");
 		return null;
 	}

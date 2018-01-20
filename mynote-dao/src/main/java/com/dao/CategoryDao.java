@@ -8,4 +8,6 @@ import com.entity.Category;
 public interface CategoryDao extends JpaRepository<Category, Integer> {
 
 	public Category findById(Integer id);
+	
+	public Category findByName(String name);
 }

@@ -13,14 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageRq<T> extends BaseRequest<T> {
+public class PageRq extends BaseRequest {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, Object> map = new HashMap<String, Object>();
-	
-	@Override
-	public String validate() {
-		return null;
-	}
+	private Map<String, Object> queryMap = new HashMap<String, Object>();
 }

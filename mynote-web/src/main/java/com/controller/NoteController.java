@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dto.PageRq;
+import com.dto.PageRs;
 import com.entity.Note;
 import com.hystrix.NoteHystrix;
 import com.util.GzipUtils;
@@ -46,26 +49,16 @@ public class NoteController {
 	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView main(){
-//		PageParam<Note> pageParam = new PageParam<Note>();
-//		System.out.println(pageParam);
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		try {
-//			PageResult<Note> pageResult = noteHystrix.findAll(pageParam);
-//			map.put("pageResult", JsonUtils.object2Json(pageResult)); 
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return new ModelAndView("layout/main",map);
-		return new ModelAndView("layout/main");
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("categoryName", "Java");
+ 		return new ModelAndView("layout/main");
 	}
 	@ResponseBody
-	@RequestMapping(value="/", method = RequestMethod.POST)
-	public PageResult<Note> toMain(PageParam<Note> pageParam){
-		System.out.println("post:" + pageParam);
-		Map<String, Object> map = new HashMap<String, Object>();
-		PageResult<Note> pageResult = noteHystrix.findAll(pageParam);
-		map.put("pageResult", JsonUtils.object2Json(pageResult)); 
-		return pageResult;//new ModelAndView("layout/main",map);
+	@RequestMapping(value="/notes", method = RequestMethod.POST)
+	public PageRs<Note> toMain(PageRq pageRq){
+		System.out.println("post:" + pageRq);
+		PageRs<Note>  pageRs = noteHystrix.findAll(pageRq);
+		return pageRs;
 	}
 	
 	//跳转Note编辑页面

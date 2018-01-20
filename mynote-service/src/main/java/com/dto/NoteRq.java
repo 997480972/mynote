@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoteRq extends BaseRequest<Note> {
+public class NoteRq extends BaseRequest {
 
 	private static final long serialVersionUID = 1L;
 
@@ -65,25 +65,5 @@ public class NoteRq extends BaseRequest<Note> {
 
 	@ApiModelProperty("浏览数")
     private Integer showCount;  //浏览数
-	
-	@ApiModelProperty(hidden=true)
-	BindingResult bindingResult; //验证结果
-
-	/**
-	 * 请求参数有效验证
-	 */
-	@Override
-	public String validate() {
-		if(null != bindingResult){
-			StringBuilder msgSb = new StringBuilder();
-			if(bindingResult.hasErrors()){
-				bindingResult.getFieldErrors().forEach(fieldError -> {
-					msgSb.append(fieldError.getField() + ":" +fieldError.getDefaultMessage() + "; ");
-				});
-				return msgSb.toString();
-			}
-		}
-		return null;
-	}
 	
 }
