@@ -20,7 +20,7 @@ public interface CategoryHystrix {
     @RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
     Category findOne(@RequestParam(value = "id") Integer id);
     
-    @RequestMapping(value = "/category/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/category/name/{name}", method = RequestMethod.GET)
     Category findOne(@RequestParam(value = "name") String name);
     
     @RequestMapping(value = "/category", method = RequestMethod.POST)

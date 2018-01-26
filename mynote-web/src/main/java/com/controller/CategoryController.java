@@ -48,7 +48,7 @@ public class CategoryController {
 		}
 		if(null == category.getId()){ //add
 			if(null != categoryHystrix.findOne(category.getName())){
-				return category.getName() + "exist";
+				return category.getName() + " exist";
 			}
 		}
 		categoryHystrix.save(category);
