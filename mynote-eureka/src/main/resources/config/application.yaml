@@ -1,4 +1,4 @@
-server.port: 8080
+server.port: 9090
 eureka.client:
  #通过eureka.client.registerWithEureka：false和fetchRegistry：false来表明自己是一个eureka server.
  register-with-eureka: false

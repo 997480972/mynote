@@ -2,11 +2,9 @@
 	<#include "head.ftl">
 </div>
 <div id="content" style="margin-bottom:100px;border:1px solid;width:auto;height:auto;" align="center">
-	<input type="text" style="text-align:center;" id="categoryName" placeholder="请输入分类">
-	<a id="addCategory" class="btn btn-info" @click="addCategory">新增分类</a>
 	<div style="width:80%;height:auto;border:1px solid;">
 		<div v-for="note in pageResult.pageData" style="border-radius: 5px;margin-top:10px;background-image:url(/image/login.png); background-repeat:no-repeat; width:33%;height: 300px;float:left;">
-			<a style="text-decoration: none" v-bind:href="['/note/' + note.id]" target="blank">
+			<a style="text-decoration: none" v-bind:href="['/note/' + note.id]">
 				<div style="padding:20px;">
 					<h2>{{note.title}}</h2>
 					<div name="hoverDisplay" class="text-left" style="width:100%;height:50%;"><span style="display:block;">{{note.content.replace(/(<.*?>)*(&.*?;)*/ig, "").substring(0, 150)}}</span></div>
@@ -60,7 +58,6 @@
 	  },
 	  /*
 	  updated:function(){
-	  alert("updated");
 			//悬浮显示文本，移出则隐藏
 			$("div[name='hoverDisplay']").each(function(){
 				$(this).hover(
@@ -76,10 +73,14 @@
 	  */
 	  methods:{
 	  	changePageSize:function(event){  //选择每页条数
+	  		var queryMap = {};
+	  		if(headVue.activeName){
+	  			queryMap.categoryName = headVue.activeName;
+	  		}
 	  		$.ajax({
 	  			type: "POST",  
 	            url:"/notes",  
-	            data: {"pageNo": this.pageResult.pageNumber,"pageSize": this.pageResult.pageSize}, 
+	            data: {"pageNo": this.pageResult.pageNumber,"pageSize": this.pageResult.pageSize,"queryMap":queryMap}, 
 	            error: function(request) {  
 	                alert("Connection error");  
 	            },  
@@ -89,10 +90,14 @@
 	  		});
 	  	},
 	  	setPageNumber:function(page){ //选择当前页
+	  		var queryMap = {};
+	  		if(headVue.activeName){
+	  			queryMap.categoryName = headVue.activeName;
+	  		}
 	  		$.ajax({
 	  			type: "POST",  
 	            url:"/notes",  
-	            data: {"pageNo": page,"pageSize":mainVue.pageResult.pageSize}, 
+	            data: {"pageNo": page,"pageSize":mainVue.pageResult.pageSize,"queryMap":queryMap}, 
 	            error: function(request) {  
 	                alert("Connection error");  
 	            },  
@@ -103,6 +108,10 @@
 	  		});
 	  	},
 	  	prePage:function(){ //上一页
+	  		var queryMap = {};
+	  		if(headVue.activeName){
+	  			queryMap.categoryName = headVue.activeName;
+	  		}
 	  		if(mainVue.pageResult.pageNumber == 1){
 	  			alert("没有上一页了！");
 	  			return false;
@@ -110,7 +119,7 @@
 	  		$.ajax({
 	  			type:"post",
 	  			url:"/notes",
-	  			data: {"pageNo":mainVue.pageResult.pageNumber - 1, "pageSize":mainVue.pageResult.pageSize},
+	  			data: {"pageNo":mainVue.pageResult.pageNumber - 1, "pageSize":mainVue.pageResult.pageSize,"queryMap":queryMap},
 	  			error: function(request) {  
 	                alert("Connection error");  
 	            },  
@@ -121,6 +130,10 @@
 	  		});
 	  	},
 	  	nextPage:function(){ //下一页
+	  		var queryMap = {};
+	  		if(headVue.activeName){
+	  			queryMap.categoryName = headVue.activeName;
+	  		}
 	  		if(mainVue.pageResult.pageNumber == mainVue.pageResult.pageTotal){
 	  			alert("没有下一页了！");
 	  			return false;
@@ -128,7 +141,7 @@
 	  		$.ajax({
 	  			type:"post",
 	  			url:"/notes",
-	  			data: {"pageNo":mainVue.pageResult.pageNumber + 1, "pageSize":mainVue.pageResult.pageSize},
+	  			data: {"pageNo":mainVue.pageResult.pageNumber + 1, "pageSize":mainVue.pageResult.pageSize,"queryMap":queryMap},
 	  			error: function(request) {  
 	                alert("Connection error");  
 	            },  
@@ -137,21 +150,6 @@
 	            }  
 	  		});
 	  	},
-	  	addCategory:function(){ //新增分类
-	  		$.ajax({
-	  			type:"post",
-	  			url:"/category",
-	  			data: {"name":$('#categoryName').val()},
-	  			error: function(request) {  
-	                alert("Connection error");  
-	            },  
-	            success: function(data) {  
-	                console.log(data);
-	                layer.alert(data.name + ' add success!',{offset: '50px'}, function(){location.reload();});
-	            }  
-	  		});
-	  	},
-	  	
 	  }
 	});
 	

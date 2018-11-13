@@ -1,24 +1,11 @@
 package com.dto;
-
-
 import io.swagger.annotations.ApiModelProperty;
-
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.validation.BindingResult;
-
-import com.entity.Note;
-import com.netflix.infix.lang.infix.antlr.EventFilterParser.null_predicate_return;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 /**
  * 笔记传输对象

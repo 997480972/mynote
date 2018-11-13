@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>mynote-common</artifactId>
+  <packaging>jar</packaging>
    <!-- 导入的方式  -->
 	<dependencyManagement>  
         <dependencies>  

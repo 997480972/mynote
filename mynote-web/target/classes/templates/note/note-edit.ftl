@@ -4,6 +4,9 @@
 <script charset="utf-8" src="/plugins/kindeditor/lang/zh-CN.js"></script>
 <div id="note" style="margin-top:50px; height: 100%;margin-bottom:100px;">
 	<form role="form" style="text-align:center;" action="#" method="post">
+		分类：<select v-model="note.categoryName"  >
+			<option v-for="category in headVue.menus">{{category.name}}</option>
+		</select><br><br>
 		<input type="text"  class="form-control" v-model:value="note.title"  style="text-align:center;" name="title" placeholder="请输入标题">
 		<textarea name="content" id="content" v-model:value="note.content" style=" height:400px;width:100%; margin: 0 auto;"></textarea>  
 		<br/>
@@ -16,6 +19,9 @@
     	el : '#note', 
     	data : {
     		note : note
+    	},
+    	created:function(){
+    		headVue.activeName=note.categoryName;
     	}
     });
     KindEditor.ready(function(K) {

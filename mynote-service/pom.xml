@@ -8,13 +8,16 @@
 		<artifactId>mynote</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<packaging>jar</packaging>
 	<artifactId>mynote-service</artifactId>
+	<properties>
+		<start-class>com.ServiceApp</start-class><!-- 启动类 -->
+	</properties>
 	<!-- 依赖jar包配置 -->
 	<dependencies>
-		<!-- -->
 		<dependency>
 			<groupId>com</groupId>
-			<artifactId>mynote-dao</artifactId>
+			<artifactId>mynote-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- MySQL -->
@@ -32,21 +35,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- 已转移至common <dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.7.0</version>
-		</dependency> -->
-	 	<dependency>
+	 	<!-- <dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.7.0</version>
-		</dependency> 
+		</dependency> -->
 		<dependency>
 			<groupId>org.ihansen.mbp</groupId>
 			<artifactId>swagger-bootstrap-ui</artifactId>
 			<version>1.6.2</version>
 		</dependency>
+		<!-- <dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency> -->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -66,4 +69,24 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+					<classifier>exec</classifier> <!-- 可执行jar包的名字后缀 -->
+					<fork>true</fork><!-- 如果没有该配置，devtools不会生效 -->
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
