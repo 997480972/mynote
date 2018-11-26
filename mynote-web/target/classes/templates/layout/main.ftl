@@ -1,9 +1,10 @@
 <div id="head">
 	<#include "head.ftl">
 </div>
+	在线人数：${onlineCount!0}
 <div id="content" style="margin-bottom:100px;border:1px solid;width:auto;height:auto;" align="center">
 	<div style="width:80%;height:auto;border:1px solid;">
-		<div v-for="note in pageResult.pageData" style="border-radius: 5px;margin-top:10px;background-image:url(/image/login.png); background-repeat:no-repeat; width:33%;height: 300px;float:left;">
+		<div v-for="note in pageResult.pageData" style="border-radius: 5px;margin-top:10px;background-image:url(/image/note.png); background-repeat:no-repeat; width:33%;height: 300px;float:left;">
 			<a style="text-decoration: none" v-bind:href="['/note/' + note.id]">
 				<div style="padding:20px;">
 					<h2>{{note.title}}</h2>
@@ -39,6 +40,7 @@
 	  	pageResult: ''
 	  },
 	  created: function(){
+	  		show_loading();
 	  		var queryMap = {};
 	  		if(headVue.activeName){
 	  			queryMap.categoryName = headVue.activeName;
@@ -48,10 +50,12 @@
 	            url:"/notes",  
 	            data: {"pageNo": 1,"pageSize": 9,"queryMap":queryMap}, 
 	            error: function(request) {  
+	            	hide_loading();
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
 	                mainVue.pageResult = data;
+	            	hide_loading();
 	            }  
 	  		});
 	  		
@@ -73,6 +77,7 @@
 	  */
 	  methods:{
 	  	changePageSize:function(event){  //选择每页条数
+	  		show_loading();
 	  		var queryMap = {};
 	  		if(headVue.activeName){
 	  			queryMap.categoryName = headVue.activeName;
@@ -83,13 +88,16 @@
 	            data: {"pageNo": this.pageResult.pageNumber,"pageSize": this.pageResult.pageSize,"queryMap":queryMap}, 
 	            error: function(request) {  
 	                alert("Connection error");  
+	                hide_loading();
 	            },  
 	            success: function(data) {  
 	                mainVue.pageResult = data;
+	                hide_loading();
 	            }  
 	  		});
 	  	},
 	  	setPageNumber:function(page){ //选择当前页
+	  		show_loading();
 	  		var queryMap = {};
 	  		if(headVue.activeName){
 	  			queryMap.categoryName = headVue.activeName;
@@ -100,20 +108,24 @@
 	            data: {"pageNo": page,"pageSize":mainVue.pageResult.pageSize,"queryMap":queryMap}, 
 	            error: function(request) {  
 	                alert("Connection error");  
+	                hide_loading();
 	            },  
 	            success: function(data) {  
 	                console.log(data);
 	                mainVue.pageResult = data;
+	                hide_loading();
 	            }  
 	  		});
 	  	},
 	  	prePage:function(){ //上一页
+	  		show_loading();
 	  		var queryMap = {};
 	  		if(headVue.activeName){
 	  			queryMap.categoryName = headVue.activeName;
 	  		}
 	  		if(mainVue.pageResult.pageNumber == 1){
 	  			alert("没有上一页了！");
+	  			hide_loading();
 	  			return false;
 	  		}
 	  		$.ajax({
@@ -122,20 +134,24 @@
 	  			data: {"pageNo":mainVue.pageResult.pageNumber - 1, "pageSize":mainVue.pageResult.pageSize,"queryMap":queryMap},
 	  			error: function(request) {  
 	                alert("Connection error");  
+	                hide_loading();
 	            },  
 	            success: function(data) {  
 	                console.log(data);
 	                mainVue.pageResult = data;
+	                hide_loading();
 	            }  
 	  		});
 	  	},
 	  	nextPage:function(){ //下一页
+	  		show_loading();
 	  		var queryMap = {};
 	  		if(headVue.activeName){
 	  			queryMap.categoryName = headVue.activeName;
 	  		}
 	  		if(mainVue.pageResult.pageNumber == mainVue.pageResult.pageTotal){
 	  			alert("没有下一页了！");
+	  			hide_loading();
 	  			return false;
 	  		}
 	  		$.ajax({
@@ -144,9 +160,11 @@
 	  			data: {"pageNo":mainVue.pageResult.pageNumber + 1, "pageSize":mainVue.pageResult.pageSize,"queryMap":queryMap},
 	  			error: function(request) {  
 	                alert("Connection error");  
+	                hide_loading();
 	            },  
 	            success: function(data) {  
 	                mainVue.pageResult = data;
+	                hide_loading();
 	            }  
 	  		});
 	  	},

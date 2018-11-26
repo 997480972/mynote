@@ -62,7 +62,7 @@ public class NoteController {
 	@ResponseBody
 	@RequestMapping(value="/notes", method = RequestMethod.POST)
 	public PageRs<Note> toMain(PageRq pageRq){
-		System.out.println("post:" + pageRq);
+//		System.out.println("post:" + pageRq);
 		PageRs<Note>  pageRs = noteHystrix.findAll(pageRq);
 		return pageRs;
 	}

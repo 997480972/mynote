@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dao.CategoryDao;
+import com.dao.CategoryMapper;
 import com.dto.CategoryRq;
 import com.dto.CategoryRsData;
 import com.dto.PageRs;
@@ -31,6 +32,8 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryDao categoryDao;
+	@Autowired
+	private CategoryMapper categoryMapper;
 
 	private AdapterFactory adapterFactory = AdapterFactory.getFactory();
 	/**
@@ -48,7 +51,8 @@ public class CategoryController {
 	@ApiOperation(value = "根据id查找分类", notes = "id查询分类")
 	@RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
 	public CategoryRsData fetchCategory(@PathVariable("id") Integer id) {
-		Category category = categoryDao.findById(id);
+//		Category category = categoryDao.findById(id);
+		Category category = categoryMapper.findById(id);
 		System.out.println(category);
 		if(null == category){
 			return null;

@@ -33,7 +33,7 @@ public class CategoryController {
 	@ResponseBody
 	@RequestMapping("/categorys")
 	public List<Category> getAllCategorys(){
-		System.out.println("查询所有分类");
+//		System.out.println("查询所有分类");
 		PageRs<Category> pageRs = categoryHystrix.findAll();
 		System.out.println(pageRs);
 		return pageRs.getPageData();

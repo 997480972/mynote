@@ -2,6 +2,7 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/vue.min.js"></script>
+<script src="/js/helper.js"></script>
 <script src="/plugins/tips/layer.js"></script>
 <title>Note</title>
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -66,21 +67,26 @@
 		    activeName: "${categoryName!''}"
 		  },
 		  created:function(){
+		  	show_loading();
 		  	$.ajax({
 	  			type: "GET",  
 	            url:"/categorys",  
 	            error: function(request) {  
+	            	hide_loading();
 	                alert("Connection error");  
 	            },  
 	            success: function(data) {  
 	            	headVue.menus = data;
+	            	hide_loading();
 	            }  
 	  		});
 		  },
 		  methods:{
 			  	addCategory:function(){ //新增分类
+			  		show_loading();
 			  		var categoryName = $('#categoryName').val();
 			  		if(!categoryName.trim()){
+			  			hide_loading();
 			  			layer.alert("分类不能为空",{offset: '50px'});
 			  			return;
 			  		}
@@ -89,10 +95,12 @@
 			  			url:"/category",
 			  			data: {"name":categoryName},
 			  			error: function(request) {  
+			  				hide_loading();
 			                alert("Connection error");  
 			            },  
 			            success: function(msg) {  
 			                console.log(msg);
+			                hide_loading();
 			                layer.alert(msg,{offset: '50px'}, function(){location.reload();});
 			            }  
 			  		});

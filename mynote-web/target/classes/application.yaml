@@ -7,6 +7,12 @@ server:
   port: 9092
   session-timeout: 30  
   
+ribbon:
+  ConnectTimeout:1000
+  ReadTimeout:1000
+  OkToRetryOnAllOperations:true
+  MaxAutoRetries:1
+  MaxAutoRetriesNextServer:1
 #数据库连接配置
 #Mysql:
 #spring.datasource:

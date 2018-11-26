@@ -2,7 +2,9 @@ package com.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,8 +13,8 @@ import com.entity.User;
 /**
  * 判断用户权限的Spring MVC的拦截器
  * @author tomtop2149
- *
  */
+@Component
 public class AuthorizedInterceptor implements HandlerInterceptor{
 	 /** 
      * preHandle方法是进行处理器拦截用的，该方法将在Controller处理之前进行调用，
@@ -22,21 +24,30 @@ public class AuthorizedInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
+		/** 获得请求的ServletPath */
+		String servletPath = request.getServletPath();
+		System.out.println(servletPath);
+		if(servletPath.equals("/")){//不需拦截
+			HttpSession session = request.getSession();
+			System.out.println(session);
+			return true;	
+		}
 		/** 1.获取session中的用户  */
-    	User user = (User) request.getSession().getAttribute("user");
+		HttpSession session = request.getSession(false);
+		System.out.println(session);
+    	User user = (User) session.getAttribute("user");
+    	System.out.println("user:" + user);
     	/** 2.判断用户是否已经登录 */
-    	if(user == null){
-    		/** 获得请求的ServletPath */
-    		String servletPath = request.getServletPath();
+//    	if(user == null){
     		/**  判断请求是否需要拦截 */
-    		if(servletPath.endsWith("verify") || servletPath.endsWith("login")){
-    			return true;
-    		}
+//    		if(servletPath.endsWith("verify") || servletPath.endsWith("login")){
+//    			return true;
+//    		}
     		 /** 如果用户没有登录，跳转到登录页面 */
-    		request.setAttribute("message", "请先登录再访问网站!");
-    		request.getRequestDispatcher("/login.jsp").forward(request, response);
-    		return false;
-    	} 
+//    		request.setAttribute("message", "请先登录再访问网站!");
+//    		request.getRequestDispatcher("/").forward(request, response);//转发
+//    		return false;
+//    	} 
     	return true;
 	}
 	 /** 
@@ -48,7 +59,7 @@ public class AuthorizedInterceptor implements HandlerInterceptor{
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
-		
+		System.out.println("postHandle...");
 	}
 	 /** 
      * 该方法需要preHandle方法的返回值为true时才会执行。
@@ -59,7 +70,7 @@ public class AuthorizedInterceptor implements HandlerInterceptor{
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+		System.out.println("afterCompletion...");
 	}
 
 }
