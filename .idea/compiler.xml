@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mynote-common" />
+        <module name="mynote-eureka" />
+        <module name="mynote-service" />
+        <module name="mynote-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mynote" target="1.8" />
+      <module name="mynote-common" target="1.8" />
+      <module name="mynote-eureka" target="1.8" />
+      <module name="mynote-service" target="1.8" />
+      <module name="mynote-web" target="1.8" />
+      <module name="pdfPrint" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

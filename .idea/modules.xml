@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../pdfprint-soa/src/main/main.iml" filepath="$PROJECT_DIR$/../pdfprint-soa/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mynote.iml" filepath="$PROJECT_DIR$/.idea/mynote.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mynote-common/mynote-common.iml" filepath="$PROJECT_DIR$/mynote-common/mynote-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mynote-eureka/mynote-eureka.iml" filepath="$PROJECT_DIR$/mynote-eureka/mynote-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mynote-service/mynote-service.iml" filepath="$PROJECT_DIR$/mynote-service/mynote-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mynote-web/mynote-web.iml" filepath="$PROJECT_DIR$/mynote-web/mynote-web.iml" />
+    </modules>
+  </component>
+</project>
