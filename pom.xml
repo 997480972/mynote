@@ -7,6 +7,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>mynote-common</module>
+		<module>mynote-gateway</module>
 		<module>mynote-eureka</module>
 		<module>mynote-service</module>
 		<module>mynote-web</module>
@@ -18,7 +19,7 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<boot.version>1.5.6.RELEASE</boot.version>
+		<boot.version>2.0.5.RELEASE</boot.version>
 	</properties>
 	<!-- 继承父包 -->
 	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 

@@ -1,0 +1,17 @@
+server:
+  port: 9999
+
+#RabbitMQ
+spring.application.name: Spring-boot-rabbitmq
+spring.rabbitmq:
+  host: localhost
+  port: 5672
+  #username: admin
+  #password: 123456
+# 开启发送确认
+  publisher-confirms: true
+# 开启发送失败退回
+  publisher-returns: true
+# 开启ACK
+  listener.direct.acknowledge-mode: manual
+  listener.simple.acknowledge-mode: manual
